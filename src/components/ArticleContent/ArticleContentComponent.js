@@ -59,3 +59,5 @@ export default connect(mapStateToProps, { fetchArticle })(ArticleContent);
 
 // WEBPACK FOOTER //
 // ./src/app/components/ArticleContent/ArticleContentComponent.js
+
+export const Article = () => {};

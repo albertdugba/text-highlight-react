@@ -235,7 +235,7 @@ class WikiMedium extends Component {
     userSelectedRanges[selectedRangeIndex].comment = commentText;
 
     this.setState({
-      selectedRanges: userSelectedRanges,
+      selectedRangesp: userSelectedRanges,
     });
   }
 
