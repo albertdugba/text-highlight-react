@@ -16,6 +16,7 @@ import '../css/WikiMedium.css';
 class WikiMedium extends Component {
   constructor() {
     super();
+    this.activeElementRef = React.createRef();
 
     this.state = {
       activeElement: null,
@@ -54,6 +55,7 @@ class WikiMedium extends Component {
         <hr />
         <div className='articleContent'>
           <Comment
+            ref={this.activeElementRef}
             commentBoxLocStyle={this.state.commentBoxLocStyle}
             currentText={this.state.currentText}
             saveComment={t => this.saveComment(t)}
@@ -107,8 +109,10 @@ class WikiMedium extends Component {
 
   highlightSelection(selection, commentText) {
     const userSelectedRanges = this.state.selectedRanges;
+
     if (this.state.activeElement) {
       const id = this.state.activeElement.id;
+      console.log('ActiveElement', this.state.activeElement.id);
       while (document.getElementById(id) != null) {
         const newNode = document.createTextNode(
           document.getElementById(id).innerText
@@ -173,6 +177,7 @@ class WikiMedium extends Component {
   }
 
   onHighlightSelect(e) {
+    console.log('Target Id', e.target.id);
     if (e.target.className === 'highlight') {
       this.setState({
         activeElement: e.target,
@@ -184,11 +189,15 @@ class WikiMedium extends Component {
   onComment() {
     let commentText = null;
     let selectionRange = null;
+    console.log('Ref',this.activeElementRef.current);
     if (
       this.state.activeElement &&
       this.state.activeElement.className === 'highlight'
     ) {
       const userSelectedRanges = this.state.selectedRanges;
+      console.log('Range', userSelectedRanges);
+      console.log('Active Element', this.state.activeElement);
+      console.log('Current Text', this.state.currentText);
       const selectedRangeIndex = userSelectedRanges.indexOf(
         userSelectedRanges.find(
           i =>
@@ -233,6 +242,7 @@ class WikiMedium extends Component {
       userSelectedRanges.find(i => i.id === Id && i.title === this.props.title)
     );
     userSelectedRanges[selectedRangeIndex].comment = commentText;
+    console.log('Active Element 2', this.state.activeElement);
 
     this.setState({
       selectedRangesp: userSelectedRanges,

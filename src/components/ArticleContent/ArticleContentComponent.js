@@ -34,8 +34,6 @@ class ArticleContent extends Component {
   render() {
     return (
       <div className='article'>
-        <div style={this.state.loaderStyle} />
-
         <h1>{this.props.article.title}</h1>
         {ReactHtmlParser(this.props.article.extract)}
       </div>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import '../../css/Comment.css';
 
-export const Comment = props => {
+export const Comment = forwardRef((props, ref) => {
   return (
-    <div id='commentNotes' style={props.commentBoxLocStyle}>
+    <div id='commentNotes' style={props.commentBoxLocStyle} ref={ref}>
       <div id='header'>
         <i className='fa fa-comment'></i> PRIVATE COMMENT
         <button
@@ -22,7 +22,4 @@ export const Comment = props => {
       </div>
     </div>
   );
-};
-
-// WEBPACK FOOTER //
-// ./src/app/components/Comment/CommentComponent.js
+});

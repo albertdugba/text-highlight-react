@@ -5,17 +5,14 @@ export const ToolTip = props => {
   return (
     <div className='tooltip' style={props.toolTipLocStyle}>
       <button className='button-tooltip' onClick={() => props.onHighLight()}>
-        <i className='fa fa-pencil'></i>
+        Hightlight
       </button>
       <button
         className='button-tooltip extra-margin-left'
         onClick={() => props.onComment()}
       >
-        <i className='fa fa-comment'></i>
+        Add Note
       </button>
     </div>
   );
 };
-
-// WEBPACK FOOTER //
-// ./src/app/components/ToolTip/ToolTipComponent.js
