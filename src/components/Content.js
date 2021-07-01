@@ -42,6 +42,11 @@ class Content extends Component {
     }
   }
 
+  // Problem:
+  // When you hightlight a text and click add note, it throws an error
+  // I would like to send the ranges to the server
+  // and retrieve from when the page is refreshed
+
   render() {
     return (
       <div className='wiki-medium'>
