@@ -1,9 +1,8 @@
-import React, { forwardRef } from 'react';
 import '../../css/Comment.css';
 
-export const Comment = forwardRef((props, ref) => {
+export const Comment = props => {
   return (
-    <div id='commentNotes' style={props.commentBoxLocStyle} ref={ref}>
+    <div id='commentNotes' style={props.commentBoxLocStyle}>
       <div id='header'>
         <i className='fa fa-comment'></i> PRIVATE COMMENT
         <button
@@ -22,4 +21,4 @@ export const Comment = forwardRef((props, ref) => {
       </div>
     </div>
   );
-});
+};

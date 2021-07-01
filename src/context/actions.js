@@ -6,15 +6,15 @@ export const fetchArticle = dispatch => {
   axios
     .get(url)
     .then(response => {
-      const { title, extracts } =
+      const { title, extract } =
         response.data.query.pages[response.data.query.pageids[0]];
       dispatch({
         type: ACTION_TYPE.FETCH_ARTICLE,
         loaded: true,
-        payload: { title, extracts },
+        payload: { title, extract },
       });
 
-      console.log(title);
+      console.log(extract);
     })
     .catch(error => console.log(error, 'Something went wrong'));
 };

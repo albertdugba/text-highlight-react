@@ -1,12 +1,8 @@
 import './App.css';
-import WikiMedium from './utility/WikiMedium';
+import Content from './components/Content';
 
 function App() {
-  return (
-    <div className='App'>
-      <WikiMedium />
-    </div>
-  );
+  return <Content />;
 }
 
 export default App;

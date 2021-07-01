@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { ToolTip } from '../components/Tooltip/TooltipComponent';
-import ArticleContent from '../components/ArticleContent/ArticleContentComponent';
-import rangy from 'rangy/lib/rangy-serializer';
+import { ArticleContent } from '../components/ArticleContent/ArticleContent';
 import { Comment } from '../components/Comment/CommentComponent';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { fetchArticle } from '../actions/fetchActions';
+import rangy from 'rangy/lib/rangy-serializer';
 import {
   getCurrentScrollPosition,
   positionToolTip,
@@ -13,10 +10,9 @@ import {
 } from '../utility/utilsFunction';
 import '../css/WikiMedium.css';
 
-class WikiMedium extends Component {
+class Content extends Component {
   constructor() {
     super();
-    this.activeElementRef = React.createRef();
 
     this.state = {
       activeElement: null,
@@ -55,7 +51,6 @@ class WikiMedium extends Component {
         <hr />
         <div className='articleContent'>
           <Comment
-            ref={this.activeElementRef}
             commentBoxLocStyle={this.state.commentBoxLocStyle}
             currentText={this.state.currentText}
             saveComment={t => this.saveComment(t)}
@@ -189,7 +184,7 @@ class WikiMedium extends Component {
   onComment() {
     let commentText = null;
     let selectionRange = null;
-    console.log('Ref',this.activeElementRef.current);
+
     if (
       this.state.activeElement &&
       this.state.activeElement.className === 'highlight'
@@ -242,7 +237,7 @@ class WikiMedium extends Component {
       userSelectedRanges.find(i => i.id === Id && i.title === this.props.title)
     );
     userSelectedRanges[selectedRangeIndex].comment = commentText;
-    console.log('Active Element 2', this.state.activeElement);
+    console.log('Active Element line 245', this.state.activeElement);
 
     this.setState({
       selectedRangesp: userSelectedRanges,
@@ -281,17 +276,4 @@ class WikiMedium extends Component {
   }
 }
 
-WikiMedium.propTypes = {
-  fetchArticle: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  loaded: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  loaded: state.wikiReducer.loaded,
-});
-
-export default connect(mapStateToProps, { fetchArticle })(WikiMedium);
-
-// WEBPACK FOOTER //
-// ./src/app/WikiMedium.js
+export default Content;
