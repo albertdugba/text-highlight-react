@@ -215,6 +215,8 @@ class WikiMedium extends Component {
       },
       currentText: commentText,
     });
+
+    console.log(this.state.currentText);
   }
 
   saveComment(commentText) {
@@ -237,6 +239,8 @@ class WikiMedium extends Component {
     this.setState({
       selectedRanges: userSelectedRanges,
     });
+
+    console.log('Selected Ranges', this.state.selectedRanges);
   }
 
   highlightRange(range, id) {
