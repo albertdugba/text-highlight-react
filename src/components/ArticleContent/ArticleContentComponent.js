@@ -18,7 +18,7 @@ class ArticleContent extends Component {
 
   componentDidMount() {
     this.props.fetchArticle(this.props.title);
-  }
+}
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.loaded) {

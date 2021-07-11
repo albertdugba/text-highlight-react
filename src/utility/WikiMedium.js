@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { ToolTip } from '../components/Tooltip/TooltipComponent';
-import ArticleContent from '../components/ArticleContent/ArticleContentComponent';
-import rangyDese from 'rangy/lib/rangy-serializer';
-import { Comment } from '../components/Comment/CommentComponent';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { fetchArticle } from '../actions/fetchActions';
-import rangy from 'rangy-updated/lib/rangy-serializer';
+import React, { Component } from "react";
+import { ToolTip } from "../components/Tooltip/TooltipComponent";
+import ArticleContent from "../components/ArticleContent/ArticleContentComponent";
+import rangy from "rangy/lib/rangy-serializer";
+import { Comment } from "../components/Comment/CommentComponent";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { fetchArticle } from "../actions/fetchActions";
+import { nanoid } from "nanoid";
 import {
   getCurrentScrollPosition,
   positionToolTip,
   getSafeRanges,
-} from '../utility/utilsFunction';
-import '../css/WikiMedium.css';
+} from "../utility/utilsFunction";
+import "../css/WikiMedium.css";
 
 class WikiMedium extends Component {
   constructor() {
@@ -29,6 +29,7 @@ class WikiMedium extends Component {
       },
       selectedRanges: [],
       currentText: null,
+      userSelectedRanges: []
     };
 
     this.storeStateToStorage = this.storeStateToStorage.bind(this);
@@ -37,7 +38,23 @@ class WikiMedium extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('beforeunload', this.storeStateToStorage);
+    window.addEventListener("beforeunload", this.storeStateToStorage);
+    
+    fetch("http://a8517adfeda4.ngrok.io")
+    .then(res => res.json())
+    .then(payload => {
+      this.setState({userSelectedRanges: payload.data});
+    })
+    .catch(err => console.log(err));
+  }
+
+  componentDidUpdate() {
+    // console.log(this.state.userSelectedRanges);
+    // this.state.userSelectedRanges?.forEach((annotation) => {
+    //   let r = rangy.deserializeRange(annotation.range);
+    //   // console.log(r);
+    //   this.highlightSelection(r.nativeRange, r.comment);
+    // });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,16 +65,16 @@ class WikiMedium extends Component {
 
   render() {
     return (
-      <div className='wiki-medium'>
-        <div className='header'>
+      <div className="wiki-medium">
+        <div className="header">
           <h1>Wiki-Medium</h1>
         </div>
         <hr />
-        <div className='articleContent'>
+        <div className="articleContent">
           <Comment
             commentBoxLocStyle={this.state.commentBoxLocStyle}
             currentText={this.state.currentText}
-            saveComment={t => this.saveComment(t)}
+            saveComment={(t) => this.saveComment(t)}
           />
           <ToolTip
             toolTipLocStyle={this.state.toolTipLocStyle}
@@ -65,8 +82,8 @@ class WikiMedium extends Component {
             onComment={() => this.onComment()}
           />
           <div
-            onMouseUp={e => this.handleMouseUp(e)}
-            onClick={e => this.onHighlightSelect(e)}
+            onMouseUp={(e) => this.handleMouseUp(e)}
+            onClick={(e) => this.onHighlightSelect(e)}
           >
             <ArticleContent title={this.props.title} />
           </div>
@@ -80,7 +97,7 @@ class WikiMedium extends Component {
   }
 
   handleMouseUp(e) {
-    if (e.target.className !== 'highlight') {
+    if (e.target.className !== "highlight") {
       setTimeout(this.showToolTip(), 2);
     }
   }
@@ -88,10 +105,10 @@ class WikiMedium extends Component {
   showToolTip() {
     let lastSelection = null;
     let toolTipLocStyle = {
-      display: 'none',
+      display: "none",
       opacity: 0,
     };
-    if (document.getSelection() && document.getSelection().toString() !== '') {
+    if (document.getSelection() && document.getSelection().toString() !== "") {
       lastSelection = document.getSelection().getRangeAt(0);
       toolTipLocStyle = positionToolTip(document.getSelection());
     }
@@ -133,7 +150,7 @@ class WikiMedium extends Component {
       this.setState({
         toolTipLocStyle: {
           opacity: 0,
-          display: 'none',
+          display: "none",
         },
         selectedRanges: updatedSelectedRanges,
       });
@@ -143,10 +160,10 @@ class WikiMedium extends Component {
       let maxId = 1;
       if (userSelectedRanges.length > 0) {
         let articleRanges = userSelectedRanges.filter(
-          i => i.title === this.props.title
+          (i) => i.title === this.props.title
         );
         if (articleRanges.length > 0) {
-          articleRanges = articleRanges.sort(i => i.id);
+          articleRanges = articleRanges.sort((i) => i.id);
           maxId = articleRanges[0].id + 1;
         }
       }
@@ -174,7 +191,7 @@ class WikiMedium extends Component {
   }
 
   onHighlightSelect(e) {
-    if (e.target.className === 'highlight') {
+    if (e.target.className === "highlight") {
       this.setState({
         activeElement: e.target,
         toolTipLocStyle: positionToolTip(document.getElementById(e.target.id)),
@@ -187,12 +204,12 @@ class WikiMedium extends Component {
     let selectionRange = null;
     if (
       this.state.activeElement &&
-      this.state.activeElement.className === 'highlight'
+      this.state.activeElement.className === "highlight"
     ) {
       const userSelectedRanges = this.state.selectedRanges;
       const selectedRangeIndex = userSelectedRanges.indexOf(
         userSelectedRanges.find(
-          i =>
+          (i) =>
             i.id === parseInt(this.state.activeElement.id, 10) &&
             i.title === this.props.title
         )
@@ -211,7 +228,7 @@ class WikiMedium extends Component {
     let top = selectionRange.top - 30;
     this.setState({
       commentBoxLocStyle: {
-        top: top + scrollPosition + 'px',
+        top: top + scrollPosition + "px",
         opacity: 1,
       },
       currentText: commentText,
@@ -226,14 +243,16 @@ class WikiMedium extends Component {
     if (
       !(
         this.state.activeElement &&
-        this.state.activeElement.className === 'highlight'
+        this.state.activeElement.className === "highlight"
       )
     ) {
       Id = this.highlightSelection(this.state.lastSelection);
     }
 
     const selectedRangeIndex = userSelectedRanges.indexOf(
-      userSelectedRanges.find(i => i.id === Id && i.title === this.props.title)
+      userSelectedRanges.find(
+        (i) => i.id === Id && i.title === this.props.title
+      )
     );
     userSelectedRanges[selectedRangeIndex].comment = commentText;
 
@@ -241,27 +260,38 @@ class WikiMedium extends Component {
       selectedRanges: userSelectedRanges,
     });
 
-    console.log('Selected Ranges', this.state.selectedRanges);
+    console.log("Selected Ranges", this.state.selectedRanges);
+
+    fetch("http://a8517adfeda4.ngrok.io", {
+      method: "POST",
+      body: JSON.stringify(this.state.selectedRanges[0]),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
   }
 
   highlightRange(range, id) {
-    const newNode = document.createElement('span');
-    newNode.setAttribute('class', 'highlight');
-    newNode.setAttribute('id', id);
+    const newNode = document.createElement("span");
+    newNode.setAttribute("class", "highlight");
+    newNode.setAttribute("id", id);
     range.surroundContents(newNode);
   }
 
   restoreStateFromStorage() {
-    const userSelectedRanges = JSON.parse(
-      localStorage.getItem('CurrentSelectedRanges')
-    );
+    const userSelectedRanges = JSON.parse(localStorage.getItem("CurrentSelectedRanges"));
+
     if (userSelectedRanges !== null) {
       const articleRanges = userSelectedRanges.filter(
-        i => i.title === this.props.title
+        (i) => i.title === this.props.title
       );
+
       if (articleRanges !== null) {
         for (let articleRange of articleRanges) {
-          articleRange.range = rangyDese.deserializeRange(articleRange.range);
+          console.log(articleRange);
+          articleRange.range = rangy.deserializeRange(articleRange.range);
           this.highlightSelection(articleRange.range, articleRange.comment);
         }
       }
@@ -270,7 +300,7 @@ class WikiMedium extends Component {
 
   storeStateToStorage() {
     localStorage.setItem(
-      'CurrentSelectedRanges',
+      "CurrentSelectedRanges",
       JSON.stringify(this.state.selectedRanges)
     );
   }
@@ -282,7 +312,7 @@ WikiMedium.propTypes = {
   loaded: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loaded: state.wikiReducer.loaded,
 });
 
