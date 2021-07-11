@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { ToolTip } from '../components/Tooltip/TooltipComponent';
 import ArticleContent from '../components/ArticleContent/ArticleContentComponent';
-import rangy from 'rangy/lib/rangy-serializer';
+import rangyDese from 'rangy/lib/rangy-serializer';
 import { Comment } from '../components/Comment/CommentComponent';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchArticle } from '../actions/fetchActions';
+import rangy from 'rangy-updated/lib/rangy-serializer';
 import {
   getCurrentScrollPosition,
   positionToolTip,
@@ -260,7 +261,7 @@ class WikiMedium extends Component {
       );
       if (articleRanges !== null) {
         for (let articleRange of articleRanges) {
-          articleRange.range = rangy.deserializeRange(articleRange.range);
+          articleRange.range = rangyDese.deserializeRange(articleRange.range);
           this.highlightSelection(articleRange.range, articleRange.comment);
         }
       }

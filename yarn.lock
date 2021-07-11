@@ -9169,6 +9169,11 @@ range-parser@^1.2.1, range-parser@~1.2.1:
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
+rangy-updated@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/rangy-updated/-/rangy-updated-1.3.3.tgz#9ae1cb72531048fc01be11e18bd7f1aaec68a3d8"
+  integrity sha512-vkPxF0i9+aPmzV3YJqRFjUblAZ2jbQcMUdRIDjnE7oknK6rEwKQsxoVWUbi/YVK5A1P7be8EdW2Uh+wfe+2tww==
+
 rangy@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/rangy/-/rangy-1.3.0.tgz#b7c9a70aea05e5d8cdc74a8d4c8273d697271904"
